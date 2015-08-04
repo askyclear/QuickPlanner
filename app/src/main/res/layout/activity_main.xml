@@ -1,0 +1,59 @@
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/cute_1">
+    <TextView
+        android:layout_width="fill_parent"
+        android:text="초기화면 입니다"
+        android:gravity="center"
+        android:textSize="50dp"
+        android:textColor="#004590"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:layout_gravity="center" />
+    <Button
+        android:id="@+id/chat"
+        android:text="Chatting"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity = "center"/>
+    <Button
+        android:id="@+id/life_time"
+        android:text="Life time"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity = "center"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/setting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:text="Setting"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:visibility="invisible"/>
+        <Button
+            android:id="@+id/close"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:text="Close"/>
+
+    </LinearLayout>
+
+</LinearLayout>
