@@ -2,9 +2,9 @@ package com.example.seon.like;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.os.Vibrator;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +36,7 @@ public class MainActivity extends Activity implements OnClickListener {
         life_time.setOnClickListener(this);
         setting.setOnClickListener(this);
         close.setOnClickListener(this);
+        Toast.makeText(this, "MainActivity Created", Toast.LENGTH_SHORT);
     }
     @Override
     public void onClick(View v){
