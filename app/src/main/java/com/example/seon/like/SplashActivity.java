@@ -13,7 +13,7 @@ public class SplashActivity extends Activity{
         super.onCreate(savedInstanceState);
 
         try{
-            //2√  ¥Î±‚
+            //2second wait
             Thread.sleep(2000);
         }
         catch(InterruptedException e){

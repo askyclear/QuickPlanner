@@ -1,102 +1,121 @@
 package com.example.seon.like;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import java.util.Locale;
 
-/**
- * Created by Seon on 2015-07-27.
- */
-public class life_time extends Activity implements OnClickListener{
-    int[] deleted;
-    String[] description;
-    long[] dtstart;
-    long[] dtend;
-    String[] title;
-    private String[] today_titles;
-    private int[] today_deleteds;
-    private String[] today_descriptions;
-    private long[] today_dtstarts;
-    private long[] today_dtends;
+import android.app.ActionBar;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.Menu;
+
+public class life_time extends FragmentActivity implements ActionBar.TabListener{
+
+    /**
+     * The {@link android.support.v4.view.PagerAdapter} that will provide
+     * fragments for each of the sections. We use a
+     * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
+     * will keep every loaded fragment in memory. If this becomes too memory
+     * intensive, it may be best to switch to a
+     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     */
+    SectionsPagerAdapter mSectionsPagerAdapter;
+
+    /**
+     * The {@link ViewPager} that will host the section contents.
+     */
+    ViewPager mViewPager;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.life_time);
 
-        long now = System.currentTimeMillis();//현재 시간 호출
 
-        String[] projectionEvents = new String[] {
-                "deleted",
-                "description",
-                "dtstart",
-                "dtend",
-                "duration",
-                "eventTimezone",
-                "lastDate",
-                "title",
-        };//캘린더에서 가져올 목록
-        int counter = 0;
-        //Uri calendars	= Uri.parse("content://com.android.calendar/calendars");//캘린더 가져오기
-        Uri events		= Uri.parse("content://com.android.calendar/events");//일정 을 검색
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the app.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(
+                getApplicationContext(), getSupportFragmentManager());
 
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        Cursor c = getContentResolver().query(events, projectionEvents, null, null,null);
-        if(c.moveToFirst()){
-            deleted = new int[c.getCount()];
-            description = new String[c.getCount()];
-            dtstart = new long[c.getCount()];
-            dtend = new long[c.getCount()];
-            title = new String[c.getCount()];
-            do{
-                deleted[counter] = c.getInt(0);
-                description[counter] = c.getString(1);
-                dtstart[counter] = c.getLong(2);
-                dtend[counter] = c.getLong(3);
-                title[counter] = c.getString(7);
-                counter++;
-            }while(c.moveToNext());
-        }
-        today_deleteds = new int[100];
-        today_dtstarts = new long[100];
-        today_dtends = new long[100];
-        today_titles = new String[100];
-        today_descriptions = new String[100];
-        int today_counter=0;
-        long kor_gtm = 9*1000*60*60;
-        for(int i = 0; i <counter; i++){
-            if((now/1000/60/60)/24 == (dtstart[i]/1000/60/60+9)/24){
-                today_deleteds[today_counter] = deleted[i];
-                today_descriptions[today_counter] = description[i];
-                today_dtstarts[today_counter] = dtstart[i]+kor_gtm;
-                today_dtends[today_counter] = dtend[i]+kor_gtm;
-                today_titles[today_counter] = title[i];
-                today_counter++;
-            }
-        }
-
-
-        Button reTurn = (Button)findViewById(R.id.reTurn);
-        Button chat_1 = (Button)findViewById(R.id.chat_1);
-
-        reTurn.setOnClickListener(this);
-        chat_1.setOnClickListener(this);
     }
+
     @Override
-    public void onClick(View v){
-            if(v.getId() == R.id.chat_1){
-                Intent intent = new Intent(this,chat.class);
-                startActivity(intent);
-            }
-            if(v.getId()==R.id.reTurn) {
-                finish();
-        }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_life_time, menu);
+        return true;
     }
 
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+    }
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+        Context mContext;
+
+        public SectionsPagerAdapter(Context mContext, FragmentManager fm) {
+            super(fm);
+            this.mContext = mContext;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a DummySectionFragment (defined as a static inner class
+            // below) with the page number as its lone argument.
+            switch (position) {
+                case 0:
+                    return new Quick(mContext);
+                case 1:
+                    return new Times(mContext);
+                case 2:
+                    return new Calender(mContext);
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            // Show 2 total pages.
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            Locale l = Locale.getDefault();
+            switch (position) {
+                case 0:
+                    return getString(R.string.tab1_title).toUpperCase(l);
+                case 1:
+                    return getString(R.string.tab2_title).toUpperCase(l);
+                case 2:
+                    return getString(R.string.tab3_title).toUpperCase(l);
+            }
+            return null;
+        }
+    }
 
 }

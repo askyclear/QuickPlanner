@@ -28,7 +28,7 @@ public class MainActivity extends Activity implements OnClickListener {
         Button life_time = (Button)findViewById(R.id.life_time);
         Button setting = (Button)findViewById(R.id.setting);
         Button close = (Button)findViewById(R.id.close);
-        /* 진동 울리기
+        /* vibrator
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(3000);*/
         //click envent
@@ -46,10 +46,6 @@ public class MainActivity extends Activity implements OnClickListener {
         }
         if(v.getId()==R.id.life_time) {
             Intent intent = new Intent(this,life_time.class);
-            startActivity(intent);
-        }
-        if(v.getId()==R.id.setting){
-            Intent intent = new Intent(this,Setting.class);
             startActivity(intent);
         }
         if(v.getId()==R.id.close){
