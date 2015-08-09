@@ -18,6 +18,7 @@ public class QuickAdapter extends BaseAdapter {
 
         m_list = new ArrayList<String>();
     }
+
     @Override
     public int getCount() {
         return m_list.size();
@@ -51,8 +52,8 @@ public class QuickAdapter extends BaseAdapter {
     public void add(String _msg) {
         m_list.add(_msg);
     }
-
     public void remove(int _position) {
         m_list.remove(_position);
     }
+
 }
