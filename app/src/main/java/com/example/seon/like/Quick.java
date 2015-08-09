@@ -37,9 +37,9 @@ public class Quick extends Fragment {
         quick_add_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getSupportFragmentManager();
+                /*FragmentManager fm = getSupportFragmentManager();
                 DialogQuick  dialogFragment = new DialogQuick();
-                dialogFragment.show(fm, "fragment_dialog_test");
+                dialogFragment.show(fm, "fragment_dialog_test");*/
             }
         });
         return view;

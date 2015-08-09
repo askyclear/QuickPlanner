@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class QuickAdapter extends BaseAdapter {
     private ArrayList<String> m_list;
     public QuickAdapter(){
+
         m_list = new ArrayList<String>();
     }
     @Override
@@ -24,11 +25,13 @@ public class QuickAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
+
         return m_list.get(position);
     }
 
     @Override
     public long getItemId(int position) {
+
         return position;
     }
 
