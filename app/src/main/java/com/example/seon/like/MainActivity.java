@@ -36,7 +36,7 @@ public class MainActivity extends Activity implements OnClickListener {
         life_time.setOnClickListener(this);
         setting.setOnClickListener(this);
         close.setOnClickListener(this);
-        Toast.makeText(this, "MainActivity Created", Toast.LENGTH_SHORT);
+        Toast.makeText(this, "MainActivity Created", Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onClick(View v){

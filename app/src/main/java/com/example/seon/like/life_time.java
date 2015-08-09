@@ -44,7 +44,7 @@ public class life_time extends ActionBarActivity implements ActionBar.TabListene
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
         mSectionsPagerAdapter = new SectionsPagerAdapter(
-                getApplicationContext(), getSupportFragmentManager());
+                this, getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);

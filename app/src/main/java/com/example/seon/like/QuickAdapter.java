@@ -55,5 +55,9 @@ public class QuickAdapter extends BaseAdapter {
     public void remove(int _position) {
         m_list.remove(_position);
     }
+    public void setItem(int _position, String str){
+        m_list.set(_position, str);
+    }
+
 
 }
