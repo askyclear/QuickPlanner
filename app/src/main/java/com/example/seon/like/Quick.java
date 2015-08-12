@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +16,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 @SuppressLint("ValidFragment")
 public class Quick extends Fragment {
     Context mContext;
@@ -21,19 +26,22 @@ public class Quick extends Fragment {
     public Quick(Context context) {
         mContext = context;
     }
-
+    ArrayList<QuickList> mQuickList = null;
+    private Cursor cursor;
+    private SQLiteDatabase db;
+    private QuickDBHelper mQuickDBHelper;
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.quick, null);
         ListView quick_lv = (ListView)view.findViewById(R.id.quick_lv);
         Button quick_add_bt = (Button)view.findViewById(R.id.quick_add_bt);
-        mAdapter = new QuickAdapter();
+        mQuickList = new ArrayList<QuickList>();
+        for(int i = 0; i<10; i++){
+            mQuickList.add(new QuickList("title","",i+""));
+        }
+        mAdapter = new QuickAdapter(mContext,mQuickList);
         quick_lv.setAdapter(mAdapter);
-        mAdapter.add("Title");
-        mAdapter.add("Title1");
-        mAdapter.add("Title2");
-        mAdapter.add("Title3");
 
         quick_add_bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,8 +61,11 @@ public class Quick extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             EditText et = (EditText) promptView.findViewById(R.id.editTextDialogUserInput);
-                            mAdapter.setItem(0, et.getText().toString());
-                            Toast.makeText(mContext, "Text Added", Toast.LENGTH_SHORT).show();
+                            //mQuickDBHelper.insertTitle(et.getText().toString().trim());//db add
+                            Toast.makeText(mContext, et.getText().toString().trim(), Toast.LENGTH_SHORT).show();
+                            /*mAdapter.setArrayList(mQuickList);
+		                	mAdapter.notifyDataSetChanged();
+			                Cursor.close();*/
                         }
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
