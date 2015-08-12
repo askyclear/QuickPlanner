@@ -16,13 +16,12 @@ import java.util.ArrayList;
  * Created by Seon on 2015-08-07.
  */
 public class QuickAdapter extends BaseAdapter {
-    private ArrayList<QuickList> mQuickList = null;
-    private LayoutInflater inflater = null;
-    private ViewHolder viewHolder = null;
-    private Context mContext = null;
+    private ArrayList<QuickList> mQuickList;
+    private LayoutInflater inflater;
+    private ViewHolder viewHolder;
+    private Context mContext;
     //
     public QuickAdapter(Context context, ArrayList<QuickList> arrays){
-        this.mContext = context;
         this.inflater = LayoutInflater.from(context);
         this.mQuickList = arrays;
     }
@@ -54,9 +53,7 @@ public class QuickAdapter extends BaseAdapter {
             viewHolder.quick_time = (Button)v.findViewById(R.id.quick_time);
             viewHolder.quick_time_add = (Button)v.findViewById(R.id.quick_add_bt);
             viewHolder.quick_check = (CheckBox)v.findViewById(R.id.quick_check);
-
             v.setTag(viewHolder);
-
         }else {
             viewHolder = (ViewHolder)v.getTag();
         }
@@ -111,7 +108,7 @@ public class QuickAdapter extends BaseAdapter {
                 case R.id.quick_check:
                     Toast.makeText(
                             mContext,
-                            "체크박스 Tag = " + v.getTag(),
+                            "Check Tag = " + v.getTag(),
                             Toast.LENGTH_SHORT
                     ).show();
                     break;

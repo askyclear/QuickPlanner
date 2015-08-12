@@ -7,6 +7,7 @@ public class QuickList {
     private String title;
     private String detail;
     private String time;
+    public QuickList(){}
     public QuickList(String title, String detail, String time){
         this.title = title;
         this.detail = detail;
@@ -32,5 +33,4 @@ public class QuickList {
     public void setDetail(String detail){
         this.detail = detail;
     }
-
 }

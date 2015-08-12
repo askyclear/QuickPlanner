@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class Quick extends Fragment {
         mQuickList = new ArrayList<QuickList>();
         for(int i = 0; i<10; i++){
             mQuickList.add(new QuickList("title","",i+""));
+            Log.i("list : ",mQuickList.toString());
         }
         mAdapter = new QuickAdapter(mContext,mQuickList);
         quick_lv.setAdapter(mAdapter);
@@ -66,6 +68,7 @@ public class Quick extends Fragment {
                             /*mAdapter.setArrayList(mQuickList);
 		                	mAdapter.notifyDataSetChanged();
 			                Cursor.close();*/
+
                         }
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
