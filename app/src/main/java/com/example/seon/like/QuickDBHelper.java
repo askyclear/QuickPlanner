@@ -2,6 +2,7 @@ package com.example.seon.like;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
@@ -66,7 +67,11 @@ public class QuickDBHelper{
         ContentValues values = new ContentValues();
         values.put(DataBases.CreateDB.TITLE, title);
         return mDB.update(DataBases.CreateDB._TABLENAME,
-                values,  DataBases.CreateDB._ID+ "=" +rowID,null) > 0;
+                values, DataBases.CreateDB._ID + "=" + rowID, null) > 0;
+    }
+    //call All DataBase;
+    public Cursor getAllColumn(){
+        return mDB.query(DataBases.CreateDB._TABLENAME, null, null, null, null, null, null);
     }
 
 

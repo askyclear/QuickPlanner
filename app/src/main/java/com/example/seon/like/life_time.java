@@ -30,8 +30,7 @@ public class life_time extends ActionBarActivity implements ActionBar.TabListene
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    ViewPager mViewPager;
-
+    CustomViewPager mViewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +46,7 @@ public class life_time extends ActionBarActivity implements ActionBar.TabListene
                 this, getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = (CustomViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         // When swiping between different sections, select the corresponding
@@ -58,6 +57,15 @@ public class life_time extends ActionBarActivity implements ActionBar.TabListene
                     @Override
                     public void onPageSelected(int position) {
                         actionBar.setSelectedNavigationItem(position);
+                        //Quick Freagment Freez;
+                        if(position==0){
+                            mViewPager.setPagingDisabled();
+
+                        }
+                        //else All melt;
+                        else{
+                            mViewPager.setPagingEnabled();
+                        }
                     }
                 });
 

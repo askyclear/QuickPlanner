@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ public class QuickAdapter extends BaseAdapter {
     private Context mContext;
     //
     public QuickAdapter(Context context, ArrayList<QuickList> arrays){
+        this.mContext = context;
         this.inflater = LayoutInflater.from(context);
         this.mQuickList = arrays;
     }
@@ -45,32 +47,40 @@ public class QuickAdapter extends BaseAdapter {
     //Row set
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
-        if(v == null){
+        final int pos = position;
+        final Context context = parent.getContext();
+        //View v = convertView;
+        if(convertView == null){
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.quick_lv,parent,false );
+            /*TextView quick_title= (TextView)convertView.findViewById(R.id.quick_title);
+            quick_title.setText(mQuickList.get(pos).getTitle());
+            Button quick_time = (Button)convertView.findViewById(R.id.quick_time);
+            Button quick_time_add = (Button)convertView.findViewById(R.id.quick_add_bt);
+            Button quick_check = (CheckBox)convertView.findViewById(R.id.quick_check);*/
             viewHolder = new ViewHolder();
-            v = inflater.inflate(R.layout.quick_lv, null);
-            viewHolder.quick_title = (TextView)v.findViewById(R.id.quick_title);
-            viewHolder.quick_time = (Button)v.findViewById(R.id.quick_time);
-            viewHolder.quick_time_add = (Button)v.findViewById(R.id.quick_add_bt);
-            viewHolder.quick_check = (CheckBox)v.findViewById(R.id.quick_check);
-            v.setTag(viewHolder);
+            viewHolder.quick_title = (TextView)convertView.findViewById(R.id.quick_title);
+
+            viewHolder.quick_time = (Button)convertView.findViewById(R.id.quick_time);
+            viewHolder.quick_time_add = (Button)convertView.findViewById(R.id.quick_time_add);
+            viewHolder.quick_check = (CheckBox)convertView.findViewById(R.id.quick_check);
+            convertView.setTag(viewHolder);
         }else {
-            viewHolder = (ViewHolder)v.getTag();
+            viewHolder = (ViewHolder)convertView.getTag();
         }
+        viewHolder.quick_title.setText(getItem(pos).getTitle());
 
-        viewHolder.quick_title.setText(getItem(position).getTitle());
-
-        viewHolder.quick_time.setTag(position);
-        viewHolder.quick_time.setText(getItem(position).getTime());
+        viewHolder.quick_time.setTag(pos);
+        viewHolder.quick_time.setText(getItem(pos).getTime());
         viewHolder.quick_time.setOnClickListener(buttonClickListener);
 
-        viewHolder.quick_time_add.setTag(position);
+        viewHolder.quick_time_add.setTag(pos);
         viewHolder.quick_time_add.setOnClickListener(buttonClickListener);
 
-        viewHolder.quick_check.setTag(position);
+        viewHolder.quick_check.setTag(pos);
         viewHolder.quick_check.setOnClickListener(buttonClickListener);
 
-        return v;
+        return convertView;
     }
 
     public void setArrayList(ArrayList<QuickList> arrays){
@@ -96,7 +106,7 @@ public class QuickAdapter extends BaseAdapter {
                     break;
 
 
-                case R.id.quick_add_bt:
+                case R.id.quick_time_add:
                     Toast.makeText(
                             mContext,
                             "time add Tag = " + v.getTag(),
@@ -125,7 +135,6 @@ public class QuickAdapter extends BaseAdapter {
         public Button quick_time = null;
         public Button quick_time_add = null;
         public CheckBox quick_check = null;
-
     }
 
     @Override
