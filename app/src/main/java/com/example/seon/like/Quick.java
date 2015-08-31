@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,7 +22,6 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 @SuppressLint("ValidFragment")
@@ -34,9 +31,8 @@ public class Quick extends Fragment{
     public Quick(Context context) {
         mContext = context;
     }
-    ArrayList<QuickList> mQuickList = null;
+    ArrayList<QuickList> mQuickList;
     private Cursor cursor;
-    private SQLiteDatabase db;
     private QuickDBHelper mQuickDBHelper;
     private QuickList quicklist;
     private SwipeMenuListView quick_lv;
@@ -49,19 +45,13 @@ public class Quick extends Fragment{
         mQuickList = new ArrayList<QuickList>();
 
         mQuickDBHelper = new QuickDBHelper(mContext);
-        try {
-            mQuickDBHelper.open();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
+        mQuickDBHelper.open();
         cursorToArray();
         //create MenuCreator
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu menu) {
-              /*  // create "open" item
+              /* //create "open" item
                 SwipeMenuItem openItem = new SwipeMenuItem(
                         mContext);
                 // set item background
@@ -107,15 +97,15 @@ public class Quick extends Fragment{
                     case 0:
                         // delete
 //					delete(item);
-                        boolean result = mQuickDBHelper.deleteTitle(position);
+                        boolean result = mQuickDBHelper.deleteTitle(mAdapter.getItem(position).getId());
                         //
                         if (result) {
                             mQuickList.remove(position);
                             mAdapter.setArrayList(mQuickList);
                             mAdapter.notifyDataSetChanged();
-                            Toast.makeText(mContext, "delete complete", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "delete complete : "+position, Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(mContext, "delete failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "delete failed"+position, Toast.LENGTH_SHORT).show();
                         }
                         break;
                 }
@@ -154,8 +144,8 @@ public class Quick extends Fragment{
                             mQuickList.clear();
                             cursorToArray();
                             mAdapter.setArrayList(mQuickList);
-		                	mAdapter.notifyDataSetChanged();
-			                cursor.close();
+                            mAdapter.notifyDataSetChanged();
+                            cursor.close();
 
                         }
                     })
@@ -172,7 +162,6 @@ public class Quick extends Fragment{
                 ab.show();
             }
         });
-        mQuickDBHelper.close();
         return view;
     }
     //db data input arraylist
@@ -182,8 +171,8 @@ public class Quick extends Fragment{
         cursor = mQuickDBHelper.getAllColumn();
 
         while (cursor.moveToNext()) {
-            quicklist = new QuickList(
-                    cursor.getString(cursor.getColumnIndex("title")), "", "");
+            quicklist = new QuickList(cursor.getInt(cursor.getColumnIndex("_id")),
+                    cursor.getString(cursor.getColumnIndex("title")),"", "");
             mQuickList.add(quicklist);
         }
         cursor.close();

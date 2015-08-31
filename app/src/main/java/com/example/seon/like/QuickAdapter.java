@@ -1,5 +1,7 @@
 package com.example.seon.like;
 
+import android.app.TimePickerDialog;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,6 +24,8 @@ public class QuickAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ViewHolder viewHolder;
     private Context mContext;
+    QuickDBHelper mQuickDBHelper;
+    TimeDBHelper mTimeDBHelper;
     //
     public QuickAdapter(Context context, ArrayList<QuickList> arrays){
         this.mContext = context;
@@ -49,6 +54,8 @@ public class QuickAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final int pos = position;
         final Context context = parent.getContext();
+        mQuickDBHelper = new QuickDBHelper(mContext);
+        mQuickDBHelper.open();
         //View v = convertView;
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -71,7 +78,6 @@ public class QuickAdapter extends BaseAdapter {
         viewHolder.quick_title.setText(getItem(pos).getTitle());
 
         viewHolder.quick_time.setTag(pos);
-        viewHolder.quick_time.setText(getItem(pos).getTime());
         viewHolder.quick_time.setOnClickListener(buttonClickListener);
 
         viewHolder.quick_time_add.setTag(pos);
@@ -98,6 +104,8 @@ public class QuickAdapter extends BaseAdapter {
 
 
                 case R.id.quick_time:
+                    TimePickerDialog dialog = new TimePickerDialog(mContext,listener, 8, 00, false);
+                    dialog.show();
                     Toast.makeText(
                             mContext,
                             "time Tag = " + v.getTag(),
@@ -107,6 +115,13 @@ public class QuickAdapter extends BaseAdapter {
 
 
                 case R.id.quick_time_add:
+                    mTimeDBHelper = new TimeDBHelper(mContext);
+                    mTimeDBHelper.open();
+                    //String type time is changed long type
+                    String time_str = getItem(v.getId()).getTime();
+                    long time_long = Long.parseLong(time_str);
+                    //update Title
+                    mTimeDBHelper.updateTitle(time_long,getItem(v.getId()).getTitle());
                     Toast.makeText(
                             mContext,
                             "time add Tag = " + v.getTag(),
@@ -128,7 +143,19 @@ public class QuickAdapter extends BaseAdapter {
             }
         }
     };
-
+    private OnTimeSetListener listener = new OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            int pos = view.getId();
+            mQuickList.set(pos,new QuickList(pos, getItem(pos).getTitle(), "",hourOfDay+""));
+            //viewHolder.quick_time.setText(hourOfDay+"");
+            /*mQuickDBHelper.updateTime((long) viewHolder.quick_time.getTag(), hourOfDay);
+            mQuickList.set((int) viewHolder.quick_time.getTag(), new QuickList(getItem(
+                    (int) viewHolder.quick_time.getTag()).getId(),
+                    getItem((int)viewHolder.quick_time.getTag()).getTitle(),
+                    "",""));*/
+        }
+    };
 
     class ViewHolder{
         public TextView quick_title = null;

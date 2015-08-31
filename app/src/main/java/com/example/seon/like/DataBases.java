@@ -9,9 +9,12 @@ public final  class DataBases {
     public static final class CreateDB implements BaseColumns{
         public static final String TITLE = "title";
         public static final String _TABLENAME = "quick";
+        public static final String _Id = "_id";
+        public static final String _Time = "time";
         public static final String _CREATE =
-                "create table"+_TABLENAME + "("
-                                +_ID + "integer primary key autoincremnet"
-                                +TITLE+"text not null);";
+                "create table "+_TABLENAME + "("
+                                +_Id + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                +TITLE+" TEXT NOT NULL, "
+                                +_Time+" INTEGER);";
     }
 }

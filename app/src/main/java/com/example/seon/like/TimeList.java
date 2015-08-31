@@ -1,20 +1,18 @@
 package com.example.seon.like;
 
 /**
- * Created by Seon on 2015-08-12.
+ * Created by Seon on 2015-08-18.
  */
-public class QuickList {
+public class TimeList {
     private String title;
     private String detail;
     private String time;
     private int _id;
-
-    public QuickList(){}
-    public QuickList(int _id, String title, String detail, String time){
+    public TimeList(int _id, String _title, String detail, String times) {
         this._id = _id;
-        this.title = title;
+        this.title = _title;
         this.detail = detail;
-        this.time = time;
+        this.time = times;
     }
     public int getId(){
         return _id;

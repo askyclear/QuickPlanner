@@ -58,7 +58,7 @@ public class life_time extends ActionBarActivity implements ActionBar.TabListene
                     public void onPageSelected(int position) {
                         actionBar.setSelectedNavigationItem(position);
                         //Quick Freagment Freez;
-                        if(position==0){
+                        if(position==1){
                             mViewPager.setPagingDisabled();
 
                         }
@@ -118,9 +118,9 @@ public class life_time extends ActionBarActivity implements ActionBar.TabListene
             // below) with the page number as its lone argument.
             switch (position) {
                 case 0:
-                    return new Quick(mContext);
-                case 1:
                     return new Times(mContext);
+                case 1:
+                    return new Quick(mContext);
                 case 2:
                     return new Calender(mContext);
             }
@@ -138,9 +138,9 @@ public class life_time extends ActionBarActivity implements ActionBar.TabListene
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return getString(R.string.tab1_title).toUpperCase(l);
-                case 1:
                     return getString(R.string.tab2_title).toUpperCase(l);
+                case 1:
+                    return getString(R.string.tab1_title).toUpperCase(l);
                 case 2:
                     return getString(R.string.tab3_title).toUpperCase(l);
             }

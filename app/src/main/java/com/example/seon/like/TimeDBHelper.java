@@ -3,43 +3,49 @@ package com.example.seon.like;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.SQLException;
-import android.util.Log;
 
 /**
- * Created by Seon on 2015-08-09.
+ * Created by Seon on 2015-08-17.
  */
-public class QuickDBHelper{
-    private static final String DATABASE_NAME = "quickDB.db";
+public class TimeDBHelper {
+    private static final String DATABASE_NAME = "timesDB.db";
     private static final int DATABASE_VERSION = 1;
+    private static final String _TABLE_NAME = "times";
+    private static final String _Id = "_id";
     public static SQLiteDatabase mDB;
     private DatabaseHelper mDBHelper;
     private Context mCtx;
-
-    public class DatabaseHelper extends SQLiteOpenHelper{
+    public class DatabaseHelper extends SQLiteOpenHelper {
         public DatabaseHelper(Context context, String name,
                               CursorFactory factory, int version){
-            super(context,name,factory,version);
+            super(context, name, factory, version);
 
         }
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL(DataBases.CreateDB._CREATE);
+            db.execSQL("create table "+_TABLE_NAME + "("
+                    +_Id + " INTEGER NOT NULL, " +
+                    "title TEXT NOT NULL, " +
+                    "detail TEXT NOT NULL);");
+            for(int i = 0; i<24; i++) {
+                db.execSQL("INSERT INTO " + _TABLE_NAME + " (_id, title, detail)" + "VALUES (" + i + ",'','')");
+            }
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS "+DataBases.CreateDB._TABLENAME);
+            db.execSQL("DROP TABLE IF EXISTS "+_TABLE_NAME);
             onCreate(db);
         }
     }
-    public QuickDBHelper(Context context){
+    public TimeDBHelper(Context context){
         this.mCtx = context;
     }
-    public QuickDBHelper open() throws SQLException{
+    public TimeDBHelper open() throws SQLException {
         mDBHelper = new DatabaseHelper(mCtx, DATABASE_NAME, null, DATABASE_VERSION);
         mDB = mDBHelper.getWritableDatabase();
         return this;
@@ -52,34 +58,27 @@ public class QuickDBHelper{
     public long insertTitle(String title){
         //insert ex)insertColumn(String title, String contact)
         ContentValues values = new ContentValues();// all
-        values.put(DataBases.CreateDB.TITLE, title);//setting
-        return mDB.insert(DataBases.CreateDB._TABLENAME, null, values);//db insert
+        values.put("title", title);//setting
+        return mDB.insert(_TABLE_NAME, null, values);//db insert
     }
     //delete
     public boolean deleteTitle(long rowID){
-        return mDB.delete(DataBases.CreateDB._TABLENAME,
-                            DataBases.CreateDB._Id + "=" +rowID,null) > 0;
+        return mDB.delete(_TABLE_NAME,
+                _Id + "=" +rowID,null) > 0;
     }
-    //update title
+    //update
     public boolean updateTitle(long rowID, String title){
         ContentValues values = new ContentValues();
         values.put(DataBases.CreateDB.TITLE, title);
-        return mDB.update(DataBases.CreateDB._TABLENAME,
-                values, DataBases.CreateDB._Id + "=" + rowID, null) > 0;
-    }
-    //update time
-    public boolean updateTime(long rowID, int time){
-        ContentValues values = new ContentValues();
-        values.put(DataBases.CreateDB._Time, time);
-        return mDB.update(DataBases.CreateDB._TABLENAME,
-                values, DataBases.CreateDB._Id + "=" + rowID,null)>0;
+        return mDB.update(_TABLE_NAME,
+                values, _Id + "=" + rowID, null) > 0;
     }
     //call All DataBase;
     public Cursor getAllColumn(){
-        return mDB.query(DataBases.CreateDB._TABLENAME, null, null, null, null, null, null);
+        return mDB.query(_TABLE_NAME, null, null, null, null, null, null);
     }
     //All delete
     public void allDelete(){
-        mDB.delete(DataBases.CreateDB._TABLENAME,null,null);
+        mDB.delete(_TABLE_NAME,null,null);
     }
 }
